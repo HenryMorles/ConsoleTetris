@@ -16,11 +16,11 @@ void GameApp::BuildingBorders()
 		{
 			if (!i || i == FieldWidth - 1 || i == PreviewZone || !j || j == FieldHeight - 1)
 			{
-				SetChar(i, j, L'#');
+				SetChar(i, j, L'#', 82, 0, 0);
 			}
 			else if (i < PreviewZone && j < FieldHeight - 1)
 			{
-				SetChar(i, j, L'.');
+				SetChar(i, j, L'.', 0, 0, 0);
 			}
 		}
 	}
@@ -30,7 +30,7 @@ void GameApp::FigureMovement()
 {
 	if (GetChar(FigurePosition_X, FigurePosition_Y + 1) == L'&') //If the figures are too high - the game is over
 	{
-		GameOver = true; 
+		GameOver = true;
 	}
 
 	if (GetChar(Figure->Points[0].X, Figure->Points[0].Y + 1) != L'#' &&
@@ -47,20 +47,18 @@ void GameApp::FigureMovement()
 			Figure->Points[0].SetCord(Figure->Points[0].X, ++Figure->Points[0].Y);
 			Figure->ResetPosition();
 			Watch.Start();
-			SetChar(Figure->Points[0].X, Figure->Points[0].Y - 1, L'.');
-			SetChar(Figure->Points[1].X, Figure->Points[1].Y - 1, L'.');
-			SetChar(Figure->Points[2].X, Figure->Points[2].Y - 1, L'.');
-			SetChar(Figure->Points[3].X, Figure->Points[3].Y - 1, L'.');
+			for (int i = 0; i < 4; ++i) {
+				SetChar(Figure->Points[i].X, Figure->Points[i].Y - 1, L'.');
+			}
 		}
 		else if (Watch.Now() >= 350)
 		{
 			Figure->Points[0].SetCord(Figure->Points[0].X, ++Figure->Points[0].Y); //Set the coordinates of the center point of the shape
 			Figure->ResetPosition(); //Update other points
 			Watch.Start();
-			SetChar(Figure->Points[0].X, Figure->Points[0].Y - 1, L'.');
-			SetChar(Figure->Points[1].X, Figure->Points[1].Y - 1, L'.');
-			SetChar(Figure->Points[2].X, Figure->Points[2].Y - 1, L'.');
-			SetChar(Figure->Points[3].X, Figure->Points[3].Y - 1, L'.');
+			for (int i = 0; i < 4; ++i) {
+				SetChar(Figure->Points[i].X, Figure->Points[i].Y - 1, L'.');
+			}
 		}
 	}
 	else if (GetChar(Figure->Points[0].X, Figure->Points[0].Y + 1) == L'#' ||
@@ -72,10 +70,9 @@ void GameApp::FigureMovement()
 		GetChar(Figure->Points[2].X, Figure->Points[2].Y + 1) == L'&' ||
 		GetChar(Figure->Points[3].X, Figure->Points[3].Y + 1) == L'&') //Update other points
 	{
-		SetChar(Figure->Points[0].X, Figure->Points[0].Y, L'&');
-		SetChar(Figure->Points[1].X, Figure->Points[1].Y, L'&');
-		SetChar(Figure->Points[2].X, Figure->Points[2].Y, L'&');
-		SetChar(Figure->Points[3].X, Figure->Points[3].Y, L'&');
+		for (int i = 0; i < 4; ++i) {
+			SetChar(Figure->Points[i].X, Figure->Points[i].Y, L'&', 0, 0, 180);
+		}
 		RandomFigure();
 		Figure->Points[0].SetCord(FigurePosition_X, FigurePosition_Y);
 		Figure->RotationPosition = 0;
@@ -84,7 +81,7 @@ void GameApp::FigureMovement()
 	}
 	for (int i = 0; i < 4; ++i)
 	{
-		SetChar(Figure->Points[i].X, Figure->Points[i].Y, L'*');
+		SetChar(Figure->Points[i].X, Figure->Points[i].Y, L'*', 120, 0, 0);
 	}
 }
 
@@ -103,10 +100,9 @@ void GameApp::KeyPressed(int btnCode)
 		{
 			Figure->Points[0].X--;
 			Figure->ResetPosition();
-			SetChar(Figure->Points[0].X + 1, Figure->Points[0].Y, L'.');
-			SetChar(Figure->Points[1].X + 1, Figure->Points[1].Y, L'.');
-			SetChar(Figure->Points[2].X + 1, Figure->Points[2].Y, L'.');
-			SetChar(Figure->Points[3].X + 1, Figure->Points[3].Y, L'.');
+			for (int i = 0; i < 4; ++i) {
+				SetChar(Figure->Points[i].X + 1, Figure->Points[i].Y, L'.');
+			}
 		}
 	}
 
@@ -124,10 +120,9 @@ void GameApp::KeyPressed(int btnCode)
 			{
 				Figure->Points[0].X++;
 				Figure->ResetPosition();
-				SetChar(Figure->Points[0].X - 1, Figure->Points[0].Y, L'.');
-				SetChar(Figure->Points[1].X - 1, Figure->Points[1].Y, L'.');
-				SetChar(Figure->Points[2].X - 1, Figure->Points[2].Y, L'.');
-				SetChar(Figure->Points[3].X - 1, Figure->Points[3].Y, L'.');
+				for (int i = 0; i < 4; ++i) {
+					SetChar(Figure->Points[i].X - 1, Figure->Points[i].Y, L'.');
+				}
 			}
 		}
 	}
@@ -303,10 +298,9 @@ void GameApp::KeyPressed(int btnCode)
 		}
 		if (CanRotation)
 		{
-			SetChar(Figure->Points[0].X, Figure->Points[0].Y, L'.');
-			SetChar(Figure->Points[1].X, Figure->Points[1].Y, L'.');
-			SetChar(Figure->Points[2].X, Figure->Points[2].Y, L'.');
-			SetChar(Figure->Points[3].X, Figure->Points[3].Y, L'.');
+			for (int i = 0; i < 4; ++i) {
+				SetChar(Figure->Points[i].X, Figure->Points[i].Y, L'.');
+			}
 			Figure->ResetPosition();
 		}
 	}
@@ -378,11 +372,18 @@ void GameApp::FindingFilledLine()
 		}
 		if (isFilledRow) //Deleting and moving other lines
 		{
-			for (int j = i; j > 1; --j) 
+			for (int j = i; j > 1; --j)
 			{
 				for (int k = 1; k < PreviewZone; ++k)
 				{
-					SetChar(k, j, GetChar(k, j - 1));
+					if (GetChar(k, j - 1) == L'&')
+					{
+						SetChar(k, j, GetChar(k, j - 1), 0, 0, 180);
+					}
+					else
+					{
+						SetChar(k, j, GetChar(k, j - 1));
+					}
 				}
 			}
 		}
@@ -398,43 +399,43 @@ void GameApp::PreviewFigure()
 			SetChar(j, i, L' ');
 		}
 	}
-	SetChar(PreviewPoint_X, PreviewPoint_Y, L'*');
+	SetChar(PreviewPoint_X, PreviewPoint_Y, L'*', 40, 0, 0);
 	switch (NextFigere)
 	{
 	case 0:
-		SetChar(PreviewPoint_X + 1, PreviewPoint_Y, L'*');    // **
-		SetChar(PreviewPoint_X, PreviewPoint_Y + 1, L'*');    // **
-		SetChar(PreviewPoint_X + 1, PreviewPoint_Y + 1, L'*');
+		SetChar(PreviewPoint_X + 1, PreviewPoint_Y, L'*', 40, 0, 0);    // **
+		SetChar(PreviewPoint_X, PreviewPoint_Y + 1, L'*', 40, 0, 0);    // **
+		SetChar(PreviewPoint_X + 1, PreviewPoint_Y + 1, L'*', 40, 0, 0);
 		break;
 
 	case 1:
-		SetChar(PreviewPoint_X, PreviewPoint_Y - 1, L'*');   // *
-		SetChar(PreviewPoint_X, PreviewPoint_Y + 1, L'*');   // *
-		SetChar(PreviewPoint_X, PreviewPoint_Y + 2, L'*');   // *
+		SetChar(PreviewPoint_X, PreviewPoint_Y - 1, L'*', 40, 0, 0);   // *
+		SetChar(PreviewPoint_X, PreviewPoint_Y + 1, L'*', 40, 0, 0);   // *
+		SetChar(PreviewPoint_X, PreviewPoint_Y + 2, L'*', 40, 0, 0);   // *
 		break;                                               // * 
 
 	case 2:
-		SetChar(PreviewPoint_X, PreviewPoint_Y - 1, L'*');  //  *
-		SetChar(PreviewPoint_X + 1, PreviewPoint_Y, L'*');  // ***
-		SetChar(PreviewPoint_X - 1, PreviewPoint_Y, L'*');
+		SetChar(PreviewPoint_X, PreviewPoint_Y - 1, L'*', 40, 0, 0);  //  *
+		SetChar(PreviewPoint_X + 1, PreviewPoint_Y, L'*', 40, 0, 0);  // ***
+		SetChar(PreviewPoint_X - 1, PreviewPoint_Y, L'*', 40, 0, 0);
 		break;
 
 	case 3:
-		SetChar(PreviewPoint_X - 1, PreviewPoint_Y, L'*');   //  **
-		SetChar(PreviewPoint_X, PreviewPoint_Y + 1, L'*');   //   **
-		SetChar(PreviewPoint_X + 1, PreviewPoint_Y + 1, L'*');
+		SetChar(PreviewPoint_X - 1, PreviewPoint_Y, L'*', 40, 0, 0);   //  **
+		SetChar(PreviewPoint_X, PreviewPoint_Y + 1, L'*', 40, 0, 0);   //   **
+		SetChar(PreviewPoint_X + 1, PreviewPoint_Y + 1, L'*', 40, 0, 0);
 		break;
 
 	case 4:
-		SetChar(PreviewPoint_X, PreviewPoint_Y + 1, L'*');   //    **
-		SetChar(PreviewPoint_X + 1, PreviewPoint_Y, L'*');   //   **
-		SetChar(PreviewPoint_X - 1, PreviewPoint_Y + 1, L'*');
+		SetChar(PreviewPoint_X, PreviewPoint_Y + 1, L'*', 40, 0, 0);   //    **
+		SetChar(PreviewPoint_X + 1, PreviewPoint_Y, L'*', 40, 0, 0);   //   **
+		SetChar(PreviewPoint_X - 1, PreviewPoint_Y + 1, L'*', 40, 0, 0);
 		break;
 
 	case 5:
-		SetChar(PreviewPoint_X, PreviewPoint_Y - 1, L'*');     //   *   
-		SetChar(PreviewPoint_X, PreviewPoint_Y + 1, L'*');     //   *  
-		SetChar(PreviewPoint_X - 1, PreviewPoint_Y + 1, L'*'); //  **  
+		SetChar(PreviewPoint_X, PreviewPoint_Y - 1, L'*', 40, 0, 0);     //   *   
+		SetChar(PreviewPoint_X, PreviewPoint_Y + 1, L'*', 40, 0, 0);     //   *  
+		SetChar(PreviewPoint_X - 1, PreviewPoint_Y + 1, L'*', 40, 0, 0); //  **  
 		break;
 	}
 }

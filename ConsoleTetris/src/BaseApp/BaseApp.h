@@ -31,7 +31,7 @@ public:
 
 	void Run();
 
-	void SetChar(int x, int y, wchar_t c);
+	void SetChar(int x, int y, wchar_t c, int Green = 0, int Blue = 0, int Red = 0);
 	wchar_t GetChar(int x, int y);
 
 	

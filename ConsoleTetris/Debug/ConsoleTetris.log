@@ -1,8 +1,13 @@
 ﻿  BaseApp.cpp
 E:\Projects\C++\ConsoleTetris\ConsoleTetris\src\BaseApp\PerformanceCounter.h(32,65): warning C4244: return: преобразование "LONGLONG" в "int", возможна потеря данных
 E:\Projects\C++\ConsoleTetris\ConsoleTetris\src\BaseApp\PerformanceCounter.h(39,38): warning C4244: return: преобразование "LONGLONG" в "int", возможна потеря данных
-E:\Projects\C++\ConsoleTetris\ConsoleTetris\src\BaseApp\BaseApp.cpp(15,33): warning C4838: Преобразование из "int" в "SHORT" требует сужающего преобразования.
-E:\Projects\C++\ConsoleTetris\ConsoleTetris\src\BaseApp\BaseApp.cpp(15,41): warning C4838: Преобразование из "int" в "SHORT" требует сужающего преобразования.
-E:\Projects\C++\ConsoleTetris\ConsoleTetris\src\BaseApp\BaseApp.cpp(16,31): warning C4838: Преобразование из "int" в "SHORT" требует сужающего преобразования.
-E:\Projects\C++\ConsoleTetris\ConsoleTetris\src\BaseApp\BaseApp.cpp(16,41): warning C4838: Преобразование из "int" в "SHORT" требует сужающего преобразования.
+E:\Projects\C++\ConsoleTetris\ConsoleTetris\src\BaseApp\BaseApp.cpp(15,34): warning C4838: Преобразование из "int" в "SHORT" требует сужающего преобразования.
+E:\Projects\C++\ConsoleTetris\ConsoleTetris\src\BaseApp\BaseApp.cpp(15,42): warning C4838: Преобразование из "int" в "SHORT" требует сужающего преобразования.
+E:\Projects\C++\ConsoleTetris\ConsoleTetris\src\BaseApp\BaseApp.cpp(16,33): warning C4838: Преобразование из "int" в "SHORT" требует сужающего преобразования.
+E:\Projects\C++\ConsoleTetris\ConsoleTetris\src\BaseApp\BaseApp.cpp(16,45): warning C4838: Преобразование из "int" в "SHORT" требует сужающего преобразования.
+  GameApp.cpp
+  main.cpp
+E:\Projects\C++\ConsoleTetris\ConsoleTetris\src\main.cpp(6,1): warning C4326: возвращаемый тип "main" должен быть "int", а не "void"
+E:\Projects\C++\ConsoleTetris\ConsoleTetris\src\main.cpp(7,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+  Создание кода...
   ConsoleTetris.vcxproj -> E:\Projects\C++\ConsoleTetris\Debug\ConsoleTetris.exe

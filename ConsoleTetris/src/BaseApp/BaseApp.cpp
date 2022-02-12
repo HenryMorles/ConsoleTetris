@@ -12,17 +12,17 @@
 
 BaseApp::BaseApp() : X_SIZE(100), Y_SIZE(80)
 {
-	SMALL_RECT windowSize = {0, 0, X_SIZE, Y_SIZE};
-	COORD windowBufSize = {X_SIZE+1, Y_SIZE+1};
+	SMALL_RECT windowSize = { 0, 0, X_SIZE, Y_SIZE };
+	COORD windowBufSize = { X_SIZE + 1, Y_SIZE + 1 };
 
 	mConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	mConsoleIn = GetStdHandle(STD_INPUT_HANDLE);
 
-	if(!SetConsoleScreenBufferSize(mConsole,  windowBufSize))
+	if (!SetConsoleScreenBufferSize(mConsole, windowBufSize))
 	{
 		cout << "SetConsoleScreenBufferSize failed with error " << GetLastError() << endl;
 	}
-	if(!SetConsoleWindowInfo(mConsole, TRUE, &windowSize))
+	if (!SetConsoleWindowInfo(mConsole, TRUE, &windowSize))
 	{
 		cout << "SetConsoleWindowInfo failed with error " << GetLastError() << endl;
 	}
@@ -36,7 +36,7 @@ BaseApp::BaseApp() : X_SIZE(100), Y_SIZE(80)
 	GameOver = false;
 
 
-	mChiBuffer = (CHAR_INFO*)malloc((X_SIZE+1)*(Y_SIZE+1)*sizeof(CHAR_INFO));
+	mChiBuffer = (CHAR_INFO*)malloc((X_SIZE + 1) * (Y_SIZE + 1) * sizeof(CHAR_INFO));
 
 	mDwBufferSize.X = X_SIZE + 1;
 	mDwBufferSize.Y = Y_SIZE + 1;
@@ -50,11 +50,11 @@ BaseApp::BaseApp() : X_SIZE(100), Y_SIZE(80)
 	mLpWriteRegion.Bottom = Y_SIZE + 1;
 
 
-	for (int x=0; x<X_SIZE+1; x++)
+	for (int x = 0; x < X_SIZE + 1; x++)
 	{
-		for (int y=0; y<Y_SIZE+1; y++)
+		for (int y = 0; y < Y_SIZE + 1; y++)
 		{
-			SetChar(x, y, L' ');
+			SetChar(x, y, L' ', 0, 0, 0);
 		}
 	}
 }
@@ -64,23 +64,23 @@ BaseApp::~BaseApp()
 	free(mChiBuffer);
 }
 
-void BaseApp::SetChar(int x, int y, wchar_t c)
+void BaseApp::SetChar(int x, int y, wchar_t c, int Green, int Blue, int Red)
 {
-	mChiBuffer[x + (X_SIZE+1)*y].Char.UnicodeChar = c;
-	mChiBuffer[x + (X_SIZE+1)*y].Attributes = FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED;
+	mChiBuffer[x + (X_SIZE + 1) * y].Char.UnicodeChar = c;
+	mChiBuffer[x + (X_SIZE + 1) * y].Attributes = FOREGROUND_GREEN + Green | FOREGROUND_BLUE + Blue | FOREGROUND_RED + Red;
 
 }
 
 wchar_t BaseApp::GetChar(int x, int y)
 {
-	return mChiBuffer[x + (X_SIZE+1)*y].Char.AsciiChar;
+	return mChiBuffer[x + (X_SIZE + 1) * y].Char.AsciiChar;
 }
 
 void BaseApp::Render()
 {
-	if (!WriteConsoleOutput(mConsole, mChiBuffer, mDwBufferSize, mDwBufferCoord, &mLpWriteRegion)) 
+	if (!WriteConsoleOutput(mConsole, mChiBuffer, mDwBufferSize, mDwBufferCoord, &mLpWriteRegion))
 	{
-		printf("WriteConsoleOutput failed - (%d)\n", GetLastError()); 
+		printf("WriteConsoleOutput failed - (%d)\n", GetLastError());
 	}
 }
 
@@ -96,9 +96,9 @@ void BaseApp::Run()
 		timer.Start();
 		if (_kbhit())
 		{
-			KeyPressed (_getch());
+			KeyPressed(_getch());
 			if (!FlushConsoleInputBuffer(mConsoleIn))
-				cout<<"FlushConsoleInputBuffer failed with error "<<GetLastError();
+				cout << "FlushConsoleInputBuffer failed with error " << GetLastError();
 		}
 
 		UpdateF((float)deltaTime / 1000.0f);
